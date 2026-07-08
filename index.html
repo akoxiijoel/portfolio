@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joel — 60-Second Videos That Explain What You Built</title>
+<meta name="description" content="Motion design & talking-head videos that make AI, SaaS, and app startups instantly understandable. Launch them as content or ads.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=EB+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#08090B;
+    --steel-1:#121417;
+    --steel-2:#1A1D21;
+    --line:rgba(255,255,255,.07);
+    --line-hi:rgba(255,255,255,.16);
+    --chrome-hi:#F4F6F9;
+    --silver:#C6CBD3;
+    --mute:#7E848F;
+    --ember:#FFB454;
+    --ember-deep:#E08A2E;
+    --rec:#FF4740;
+    --title:'Montserrat',sans-serif;
+    --body:'SF Pro Text','SF Pro Display',-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif;
+    --serif:'Apple Garamond','EB Garamond',Garamond,'Times New Roman',serif;
+    --mono:'SF Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--body);
+    background:var(--bg);
+    color:var(--silver);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--ember);color:#1a1206}
+  a{color:inherit}
+  video{display:block;max-width:100%}
+  :focus-visible{outline:2px solid var(--ember);outline-offset:3px}
+  button{font-family:inherit}
+
+  /* grain + ambient light layers */
+  body::before{
+    content:"";position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.5;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.05'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .aurora{
+    position:fixed;inset:-20%;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(560px 480px at 78% 6%,rgba(255,180,84,.07),transparent 65%),
+      radial-gradient(760px 600px at 12% 28%,rgba(150,170,210,.05),transparent 65%),
+      radial-gradient(900px 800px at 55% 110%,rgba(255,180,84,.05),transparent 65%);
+  }
+  .cursor-light{
+    position:fixed;z-index:1;width:520px;height:520px;border-radius:50%;
+    pointer-events:none;mix-blend-mode:screen;opacity:0;
+    background:radial-gradient(circle,rgba(255,196,120,.06) 0%,transparent 60%);
+    transform:translate(-50%,-50%);transition:opacity .6s ease;
+  }
+  main{position:relative;z-index:2}
+
+  /* serif keyword */
+  .kw{
+    font-family:var(--serif);font-style:italic;font-weight:600;
+    color:var(--ember);font-size:1.1em;letter-spacing:.01em;
+    text-shadow:0 0 22px rgba(255,180,84,.4);
+  }
+
+  /* ---------- nav ---------- */
+  .nav-bar{
+    position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:100;
+    width:min(1160px,calc(100% - 28px));
+    display:flex;align-items:center;gap:18px;
+    padding:10px 12px 10px 20px;border-radius:14px;
+    border:1px solid var(--line-hi);
+    background:linear-gradient(180deg,rgba(34,38,44,.82),rgba(14,16,19,.82));
+    backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+    box-shadow:0 1px 0 rgba(255,255,255,.09) inset,0 20px 50px rgba(0,0,0,.55);
+  }
+  .brand{
+    font-family:var(--title);font-weight:900;font-size:16px;letter-spacing:.14em;
+    background:linear-gradient(180deg,#FBFCFE,#9BA2AD);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    text-decoration:none;
+  }
+  .nav-links{margin-left:auto;display:flex;gap:26px;align-items:center;padding-right:8px}
+  .nav-links a{
+    text-decoration:none;color:var(--mute);font-size:13.5px;font-weight:500;
+    letter-spacing:.02em;transition:color .2s ease,text-shadow .2s ease;
+  }
+  .nav-links a:hover{color:var(--chrome-hi);text-shadow:0 0 14px rgba(244,246,249,.35)}
+
+  /* ---------- buttons ---------- */
+  .btn{
+    position:relative;overflow:hidden;
+    display:inline-block;text-decoration:none;cursor:pointer;
+    font-family:var(--title);font-weight:800;font-size:12.5px;
+    letter-spacing:.1em;text-transform:uppercase;
+    padding:14px 26px;border-radius:10px;
+    border:1px solid var(--line-hi);color:var(--chrome-hi);
+    background:linear-gradient(180deg,#2A2E34,#15171B 60%,#101216);
+    box-shadow:0 1px 0 rgba(255,255,255,.14) inset,0 -1px 0 rgba(0,0,0,.6) inset,0 10px 26px rgba(0,0,0,.5);
+    transition:transform .15s ease,box-shadow .15s ease;
+  }
+  .btn.solid{
+    color:#170f05;border-color:rgba(255,215,154,.55);
+    background:linear-gradient(180deg,#FFDCA3 0%,#F2AC50 52%,#C87E2A 100%);
+    box-shadow:0 1px 0 rgba(255,255,255,.55) inset,0 -1px 0 rgba(0,0,0,.3) inset,0 0 34px rgba(240,169,78,.32);
+  }
+  .btn::after{ /* light sweep */
+    content:"";position:absolute;top:-40%;bottom:-40%;left:-70%;width:36%;
+    background:linear-gradient(105deg,transparent,rgba(255,255,255,.4),transparent);
+    transform:skewX(-20deg);transition:left .5s ease;
+  }
+  .btn:hover::after{left:135%}
+  .btn:hover{transform:translateY(-2px);
+    box-shadow:0 1px 0 rgba(255,255,255,.18) inset,0 16px 34px rgba(0,0,0,.6)}
+  .btn.solid:hover{box-shadow:0 1px 0 rgba(255,255,255,.55) inset,0 0 48px rgba(240,169,78,.5)}
+  .btn.sm{padding:11px 20px;font-size:11px}
+
+  /* ---------- shared ---------- */
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+  section{padding:130px 0;position:relative}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--ember);margin-bottom:26px;
+    padding:7px 14px;border-radius:999px;border:1px solid rgba(255,180,84,.25);
+    background:linear-gradient(180deg,rgba(255,180,84,.1),rgba(255,180,84,.03));
+    box-shadow:0 0 24px rgba(255,180,84,.08);
+  }
+  .eyebrow::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--ember);
+    box-shadow:0 0 8px var(--ember)}
+
+  h1,h2{
+    font-family:var(--title);font-weight:900;text-transform:uppercase;
+    line-height:.98;letter-spacing:-.02em;
+    background:linear-gradient(105deg,#6E747E 0%,#FBFCFE 22%,#C9CED6 38%,#82899466 50%,#F4F6F9 62%,#9BA2AD 80%,#5F656F 100%);
+    background-size:220% 100%;
+    -webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;
+    filter:drop-shadow(0 3px 24px rgba(240,244,248,.14));
+    animation:sheen 7s ease-in-out infinite;
+  }
+  @keyframes sheen{
+    0%,100%{background-position:0% 0}
+    50%{background-position:100% 0}
+  }
+  h2{font-size:clamp(34px,4.9vw,60px);margin-bottom:22px}
+  .lede{font-size:clamp(16.5px,1.5vw,19px);max-width:640px;color:var(--silver)}
+
+  /* scroll reveal */
+  .rv{opacity:0;transform:translateY(26px);filter:blur(6px);
+    transition:opacity .8s ease,transform .8s ease,filter .8s ease}
+  .rv.in{opacity:1;transform:none;filter:none}
+  .rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}
+
+  /* ---------- hero ---------- */
+  .hero{padding:210px 0 150px;text-align:center;position:relative}
+  .hero h1{font-size:clamp(46px,8.4vw,116px)}
+  .hero h1 .strike{position:relative;white-space:nowrap}
+  .hero h1 .strike::after{content:"";position:absolute;left:-2%;right:-2%;top:53%;height:.08em;
+    background:linear-gradient(90deg,#FF6B60,var(--rec));border-radius:99px;
+    transform:rotate(-1.5deg);box-shadow:0 0 20px rgba(255,71,64,.55)}
+  .hero .lede{margin:32px auto 0}
+  .hero .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:42px}
+
+  /* floating chips */
+  .chip{
+    position:absolute;z-index:3;
+    font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--silver);
+    padding:10px 16px;border-radius:12px;border:1px solid var(--line-hi);
+    background:linear-gradient(180deg,rgba(36,40,46,.9),rgba(16,18,21,.9));
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    box-shadow:0 1px 0 rgba(255,255,255,.1) inset,0 16px 36px rgba(0,0,0,.55);
+    animation:float 7s ease-in-out infinite;
+    white-space:nowrap;
+  }
+  .chip i{font-style:normal;color:var(--ember);text-shadow:0 0 10px rgba(255,180,84,.5)}
+  .chip.c1{top:24%;left:4%;animation-delay:0s;transform:rotate(-4deg)}
+  .chip.c2{top:18%;right:5%;animation-delay:1.6s;transform:rotate(3deg)}
+  .chip.c3{bottom:16%;left:9%;animation-delay:3.1s;transform:rotate(2deg)}
+  .chip.c4{bottom:22%;right:7%;animation-delay:4.5s;transform:rotate(-3deg)}
+  @keyframes float{
+    0%,100%{translate:0 0}
+    50%{translate:0 -14px}
+  }
+
+  /* ---------- marquee ---------- */
+  .ticker{
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);
+    overflow:hidden;padding:20px 0;position:relative;
+  }
+  .ticker .row{display:flex;width:max-content;animation:tick 32s linear infinite}
+  .ticker span{
+    font-family:var(--title);font-weight:900;text-transform:uppercase;
+    font-size:clamp(15px,1.7vw,20px);letter-spacing:.16em;white-space:nowrap;
+    padding:0 28px;
+    background:linear-gradient(180deg,#E9ECF1,#7D838D);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .ticker span.gold{background:linear-gradient(180deg,#FFDCA3,#C87E2A);
+    -webkit-background-clip:text;background-clip:text}
+  @keyframes tick{to{transform:translateX(-50%)}}
+
+  /* ---------- problem ---------- */
+  .problem-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center}
+  .glass{
+    border-radius:18px;overflow:hidden;position:relative;
+    border:1px solid transparent;
+    background:
+      linear-gradient(180deg,var(--steel-2),var(--steel-1)) padding-box,
+      linear-gradient(160deg,rgba(255,255,255,.22),rgba(255,255,255,.04) 30%,rgba(255,180,84,.16)) border-box;
+    box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 30px 70px rgba(0,0,0,.55);
+  }
+  .glass p{padding:22px 26px;border-bottom:1px solid var(--line);font-size:15.5px}
+  .glass p:last-child{border-bottom:0;
+    background:linear-gradient(180deg,rgba(255,180,84,.16),rgba(255,180,84,.04))}
+  .glass span{font-family:var(--mono);font-size:10.5px;display:block;color:var(--mute);
+    margin-bottom:6px;text-transform:uppercase;letter-spacing:.14em}
+  .glass p:last-child span{color:var(--ember)}
+
+  /* ---------- cinema decks ---------- */
+  .cinema{position:relative;margin-top:54px}
+  .cinema .rail{
+    display:flex;gap:26px;overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    padding:26px max(24px,calc((100vw - 1160px)/2 + 24px)) 34px;
+    scrollbar-width:none;cursor:grab;
+  }
+  .cinema .rail::-webkit-scrollbar{display:none}
+  .cinema .rail.dragging{cursor:grabbing;scroll-snap-type:none}
+  .cinema .rail.dragging .card *{pointer-events:none}
+  .cinema{
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+    mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+  }
+
+  .card{
+    position:relative;flex:0 0 auto;scroll-snap-align:center;
+    height:min(62vh,560px);
+    border-radius:20px;overflow:hidden;
+    border:1px solid transparent;
+    background:
+      linear-gradient(160deg,#17191D,#0D0F12) padding-box,
+      linear-gradient(160deg,rgba(255,255,255,.28),rgba(255,255,255,.05) 34%,rgba(255,180,84,.2)) border-box;
+    box-shadow:0 34px 70px rgba(0,0,0,.6);
+    transition:box-shadow .3s ease;
+    will-change:transform;
+  }
+  .card.r916{aspect-ratio:9/16}
+  .card.r169{aspect-ratio:16/9;max-width:min(86vw,780px)}
+  .card.r11{aspect-ratio:1/1;max-width:86vw}
+  .card video{width:100%;height:100%;object-fit:cover;background:#000}
+  .card::after{ /* glass top reflection */
+    content:"";position:absolute;inset:0 0 62% 0;pointer-events:none;border-radius:inherit;
+    background:linear-gradient(180deg,rgba(255,255,255,.1),transparent 60%);
+    opacity:.55;
+  }
+  .card:hover{box-shadow:0 40px 84px rgba(0,0,0,.7),0 0 44px rgba(255,180,84,.12)}
+
+  /* custom play overlay */
+  .playcap{
+    position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(120% 90% at 50% 46%,rgba(8,9,11,.06),rgba(8,9,11,.5));
+    cursor:pointer;border:0;transition:opacity .4s ease;
+  }
+  .playcap span{
+    width:78px;height:78px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    border:1px solid rgba(255,255,255,.28);
+    background:linear-gradient(180deg,rgba(52,57,64,.9),rgba(18,20,24,.9));
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    box-shadow:0 1px 0 rgba(255,255,255,.22) inset,0 18px 40px rgba(0,0,0,.6),0 0 34px rgba(255,180,84,.15);
+    transition:transform .25s ease,box-shadow .25s ease;
+  }
+  .playcap span::before{
+    content:"";margin-left:5px;width:0;height:0;
+    border-left:20px solid var(--ember);
+    border-top:12px solid transparent;border-bottom:12px solid transparent;
+    filter:drop-shadow(0 0 10px rgba(255,180,84,.6));
+  }
+  .playcap:hover span{transform:scale(1.1);box-shadow:0 1px 0 rgba(255,255,255,.25) inset,0 22px 46px rgba(0,0,0,.7),0 0 52px rgba(255,180,84,.3)}
+  .playcap.off{opacity:0;pointer-events:none}
+
+  /* thin progress filament */
+  .filament{
+    height:1px;margin:2px auto 0;max-width:280px;position:relative;
+    background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;
+  }
+  .filament i{position:absolute;top:0;bottom:0;left:0;width:20%;
+    background:linear-gradient(90deg,rgba(255,180,84,.2),var(--ember));
+    box-shadow:0 0 12px rgba(255,180,84,.6);border-radius:99px;
+    transition:transform .25s ease,width .25s ease}
+
+  /* ---------- process ---------- */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:56px}
+  .step{
+    position:relative;padding:30px 24px;border-radius:18px;
+    border:1px solid transparent;
+    background:
+      linear-gradient(180deg,var(--steel-2),var(--steel-1)) padding-box,
+      linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.03)) border-box;
+    box-shadow:0 20px 46px rgba(0,0,0,.45);
+    transition:transform .25s ease,box-shadow .25s ease;
+  }
+  .step:hover{transform:translateY(-6px);
+    box-shadow:0 30px 60px rgba(0,0,0,.55),0 0 34px rgba(255,180,84,.1)}
+  .step .num{
+    font-family:var(--title);font-weight:900;font-size:44px;line-height:1;
+    background:linear-gradient(180deg,rgba(255,220,163,.9),rgba(200,126,42,.35));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    filter:drop-shadow(0 0 16px rgba(255,180,84,.25));
+  }
+  .step h3{font-family:var(--title);font-weight:800;text-transform:uppercase;font-size:17px;
+    letter-spacing:.04em;margin:16px 0 8px;color:var(--chrome-hi)}
+  .step p{font-size:14px;color:var(--mute)}
+
+  /* ---------- who ---------- */
+  .fits{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:56px}
+  .fit{
+    padding:34px 30px;border-radius:18px;position:relative;overflow:hidden;
+    border:1px solid transparent;
+    background:
+      linear-gradient(180deg,var(--steel-2),var(--steel-1)) padding-box,
+      linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.03) 40%,rgba(255,180,84,.14)) border-box;
+    box-shadow:0 20px 46px rgba(0,0,0,.45);
+    transition:transform .25s ease,box-shadow .25s ease;
+  }
+  .fit:hover{transform:translateY(-5px);box-shadow:0 30px 60px rgba(0,0,0,.55),0 0 40px rgba(255,180,84,.1)}
+  .fit h3{font-family:var(--title);font-weight:800;text-transform:uppercase;font-size:20px;
+    margin-bottom:10px;color:var(--chrome-hi)}
+  .fit p{font-size:14.5px;color:var(--mute)}
+
+  /* ---------- faq ---------- */
+  .faq{max-width:760px;margin:56px auto 0}
+  .q{
+    border-radius:14px;margin-bottom:12px;overflow:hidden;
+    border:1px solid var(--line-hi);
+    background:linear-gradient(180deg,var(--steel-2),var(--steel-1));
+    box-shadow:0 14px 32px rgba(0,0,0,.4);
+  }
+  .q summary{
+    list-style:none;cursor:pointer;display:flex;align-items:center;gap:14px;
+    padding:20px 24px;font-weight:600;font-size:15.5px;color:var(--chrome-hi);
+  }
+  .q summary::-webkit-details-marker{display:none}
+  .q summary::after{
+    content:"+";margin-left:auto;color:var(--ember);font-size:20px;font-weight:400;
+    transition:transform .25s ease;text-shadow:0 0 12px rgba(255,180,84,.5);
+  }
+  .q[open] summary::after{transform:rotate(45deg)}
+  .q .a{padding:0 24px 22px;font-size:14.5px;color:var(--mute)}
+
+  /* ---------- end ---------- */
+  .end{text-align:center;padding:170px 0 150px;position:relative;overflow:hidden}
+  .end::before{content:"";position:absolute;left:50%;top:24%;transform:translateX(-50%);
+    width:80%;height:64%;pointer-events:none;
+    background:radial-gradient(closest-side,rgba(255,180,84,.12),transparent 70%)}
+  .end h2{font-size:clamp(44px,8vw,110px);line-height:.95}
+  .end h2 .gold{
+    background:linear-gradient(105deg,#8A5B1F,#FFDCA3 30%,#F2AC50 50%,#FFE9C4 65%,#C87E2A 90%);
+    background-size:220% 100%;
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    animation:sheen 6s ease-in-out infinite;
+    filter:drop-shadow(0 0 30px rgba(255,180,84,.25));
+  }
+  .end .lede{margin:26px auto 44px}
+  .end .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .socials{margin-top:64px;display:flex;justify-content:center;gap:28px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12.5px;position:relative}
+  .socials a{color:var(--mute);text-decoration:none;border-bottom:1px solid var(--line-hi);
+    padding-bottom:3px;transition:color .2s ease,border-color .2s ease}
+  .socials a:hover{color:var(--ember);border-color:var(--ember);text-shadow:0 0 12px rgba(255,180,84,.5)}
+  footer{color:var(--mute);font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;
+    text-transform:uppercase;padding:26px 0 34px;text-align:center;border-top:1px solid var(--line);
+    position:relative;z-index:2}
+
+  /* ---------- responsive ---------- */
+  @media(max-width:980px){
+    .chip.c1,.chip.c3{left:2%}
+    .chip.c2,.chip.c4{right:2%}
+  }
+  @media(max-width:900px){
+    .problem-grid{grid-template-columns:1fr;gap:44px}
+    .steps{grid-template-columns:repeat(2,1fr)}
+  }
+  @media(max-width:720px){
+    .chip{display:none}
+    section{padding:96px 0}
+    .hero{padding:170px 0 110px}
+  }
+  @media(max-width:600px){
+    .fits,.steps{grid-template-columns:1fr}
+    .nav-links{display:none}
+    .card{height:min(64vh,500px)}
+    .cinema .rail{gap:16px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    html,.cinema .rail{scroll-behavior:auto}
+    .rv{opacity:1;transform:none;filter:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="aurora" aria-hidden="true"></div>
+<div class="cursor-light" id="cursorLight" aria-hidden="true"></div>
+
+<!-- floating glass nav -->
+<nav class="nav-bar">
+  <a class="brand" href="#top">JOEL</a>
+  <div class="nav-links">
+    <a href="#work">Work</a>
+    <a href="#process">Process</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <a class="btn solid sm" href="#contact">Book a call</a>
+</nav>
+
+<main id="top">
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <span class="chip c1"><i>▶</i> Scripted → Animated → Launched</span>
+  <span class="chip c2"><i>60s</i> one video, content + ad</span>
+  <span class="chip c3"><i>2s</i> hook or it doesn't ship</span>
+  <span class="chip c4"><i>9:16</i> built for the feed</span>
+  <div class="wrap">
+    <div class="eyebrow rv">Motion design &amp; video editing</div>
+    <h1 class="rv d1">
+      Your product<br>
+      isn't <span class="strike">confusing.</span><br>
+      Your explanation is.
+    </h1>
+    <p class="lede rv d2">
+      I turn AI, SaaS, and app startups — and the coaches building them — into
+      <span class="kw">60-second videos</span> people actually get.
+      Launch every one as organic content or run it as an ad.
+      Same file, <span class="kw">two jobs</span>.
+    </p>
+    <div class="cta-row rv d3">
+      <a class="btn solid" href="#work">Watch the work</a>
+      <a class="btn" href="#contact">Book a video</a>
+    </div>
+  </div>
+</header>
+
+<!-- ================= TICKER ================= -->
+<div class="ticker" aria-hidden="true">
+  <div class="row">
+    <span>Motion Design</span><span class="gold">✦</span>
+    <span>Talking Head</span><span class="gold">✦</span>
+    <span>60-Second Explainers</span><span class="gold">✦</span>
+    <span>Content ↔ Ads</span><span class="gold">✦</span>
+    <span>Hooks That Hold</span><span class="gold">✦</span>
+    <span>Motion Design</span><span class="gold">✦</span>
+    <span>Talking Head</span><span class="gold">✦</span>
+    <span>60-Second Explainers</span><span class="gold">✦</span>
+    <span>Content ↔ Ads</span><span class="gold">✦</span>
+    <span>Hooks That Hold</span><span class="gold">✦</span>
+  </div>
+</div>
+
+<!-- ================= PROBLEM ================= -->
+<section>
+  <div class="wrap">
+    <div class="problem-grid">
+      <div>
+        <div class="eyebrow rv">The problem</div>
+        <h2 class="rv d1">You're too deep in it to explain it simply.</h2>
+        <p class="lede rv d2">
+          That's the <span class="kw">founder's curse</span>. You built something genuinely
+          hard — an AI model, a SaaS platform, an app, a coaching system — and now every
+          pitch, landing page, and ad has to compress months of work into
+          <span class="kw">seconds of attention</span>. Most can't. So the market scrolls
+          past something great because nobody translated it. That translation is my whole
+          job: 60 seconds people actually <span class="kw">understand</span> — and remember.
+        </p>
+      </div>
+      <div class="glass rv d2" aria-label="Things founders say before working with me">
+        <p><span>Heard from a SaaS founder</span>"People only get it after a 30-minute demo."</p>
+        <p><span>Heard from an AI startup</span>"Our tech is the pitch. But nobody understands the tech."</p>
+        <p><span>Heard from a coach</span>"I know my offer works. I just can't explain why fast enough."</p>
+        <p><span>What they say after</span>"Oh. So THAT'S what we do."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MOTION DESIGN ================= -->
+<section id="work" style="padding-bottom:70px">
+  <div class="wrap">
+    <div class="eyebrow rv">Selected work</div>
+    <h2 class="rv d1">Motion design.</h2>
+    <p class="lede rv d2">
+      Kinetic type, animated UI, and <span class="kw">visual metaphors</span> that turn
+      "what is this?" into "I need this" — in under a minute.
+    </p>
+  </div>
+  <div class="cinema rv d2">
+    <div class="rail" tabindex="0" aria-label="Motion design samples">
+      <figure class="card r169"><video src="videos/vsl-27th.mp4" playsinline preload="metadata"></video></figure>
+      <figure class="card r916"><video src="videos/truker.mp4" playsinline preload="metadata"></video></figure>
+      <figure class="card r916"><video src="videos/mia.mp4" playsinline preload="metadata"></video></figure>
+      <figure class="card r916"><video src="videos/itria-week1.mp4" playsinline preload="metadata"></video></figure>
+      <figure class="card r916"><video src="videos/itria-home.mp4" playsinline preload="metadata"></video></figure>
+    </div>
+    <div class="filament"><i></i></div>
+  </div>
+</section>
+
+<!-- ================= TALKING HEAD ================= -->
+<section style="padding-top:70px;padding-bottom:70px">
+  <div class="wrap">
+    <div class="eyebrow rv">Selected work</div>
+    <h2 class="rv d1">Talking head.</h2>
+    <p class="lede rv d2">
+      A face builds the trust — the edit keeps the attention. Cut with motion graphics,
+      captions, and <span class="kw">pacing</span> that hold viewers to the last second.
+    </p>
+  </div>
+  <div class="cinema rv d2">
+    <div class="rail" tabindex="0" aria-label="Talking head samples">
+      <figure class="card r916"><video src="videos/r2.mp4" playsinline preload="metadata"></video></figure>
+      <figure class="card r916"><video src="videos/nb-talkinghead.mp4" playsinline preload="metadata"></video></figure>
+      <figure class="card r916"><video src="videos/bree-r4.mp4" playsinline preload="metadata"></video></figure>
+      <figure class="card r916"><video src="videos/bree-r3.mp4" playsinline preload="metadata"></video></figure>
+      <figure class="card r916"><video src="videos/sneak-peek.mp4" playsinline preload="metadata"></video></figure>
+    </div>
+    <div class="filament"><i></i></div>
+  </div>
+</section>
+
+<!-- ================= PROCESS ================= -->
+<section id="process">
+  <div class="wrap">
+    <div class="eyebrow rv">How it works</div>
+    <h2 class="rv d1">Hard to explain, to published — in four moves.</h2>
+    <div class="steps">
+      <div class="step rv">
+        <span class="num">01</span>
+        <h3>Translate</h3>
+        <p>A short call where I dig into what you actually do, then script the <span class="kw">one idea</span> worth 60 seconds. You approve every word first.</p>
+      </div>
+      <div class="step rv d1">
+        <span class="num">02</span>
+        <h3>Capture</h3>
+        <p>Voiceover for motion pieces, or a simple shot list if you're on camera. Phone footage is fine — the <span class="kw">edit</span> does the heavy lifting.</p>
+      </div>
+      <div class="step rv d2">
+        <span class="num">03</span>
+        <h3>Animate</h3>
+        <p>Motion design, captions, sound, and pacing tuned for the <span class="kw">first 2 seconds</span> and the last 5. One revision round included.</p>
+      </div>
+      <div class="step rv d3">
+        <span class="num">04</span>
+        <h3>Launch twice</h3>
+        <p>You get the file cut for organic and for paid. Post it, boost it, run it — same video, <span class="kw">double the mileage</span>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHO ================= -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow rv">Who I work with</div>
+    <h2 class="rv d1">Built for the hardest-to-explain businesses.</h2>
+    <div class="fits">
+      <div class="fit rv">
+        <h3>AI startups</h3>
+        <p>Your model is impressive; your demo is a black box. I turn <span class="kw">what it does for people</span> into something a scroller gets in 5 seconds.</p>
+      </div>
+      <div class="fit rv d1">
+        <h3>SaaS &amp; tech</h3>
+        <p>Feature lists don't sell. Animated UI walkthroughs and <span class="kw">before/after stories</span> do — no 30-minute demo required.</p>
+      </div>
+      <div class="fit rv d2">
+        <h3>App startups</h3>
+        <p>You have one screen-record and a dream. I make your app look like it already <span class="kw">won its category</span> — for launch content and install ads.</p>
+      </div>
+      <div class="fit rv d3">
+        <h3>Coaches &amp; experts</h3>
+        <p>Your offer lives in your head. Talking-head videos with sharp motion editing make your method feel as <span class="kw">credible</span> as it actually is.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section id="faq" style="padding-top:0">
+  <div class="wrap" style="text-align:center">
+    <div class="eyebrow rv">Questions</div>
+    <h2 class="rv d1">Before you ask.</h2>
+    <div class="faq" style="text-align:left">
+      <details class="q rv"><summary>How fast is the turnaround?</summary>
+        <div class="a">Script within days of our call; the finished video typically lands inside 1–2 weeks depending on complexity. Rush timelines are possible — ask.</div>
+      </details>
+      <details class="q rv d1"><summary>Motion design or talking head — which do I need?</summary>
+        <div class="a">If trust in a person sells your offer (coaches, founder brands), talking head. If the product itself is the star (AI, SaaS, apps), motion design. On our call I'll tell you which — and why — before you spend anything.</div>
+      </details>
+      <details class="q rv d2"><summary>What do you need from me?</summary>
+        <div class="a">One call and access to whatever exists: screen recordings, product demos, phone footage, or just you talking. Rough is fine. The script and the edit do the heavy lifting.</div>
+      </details>
+      <details class="q rv d3"><summary>Can I run the video as an ad?</summary>
+        <div class="a">Yes — that's the point. Every video is delivered ready for both organic posting and paid placement, in the formats each platform wants.</div>
+      </details>
+      <details class="q rv d3"><summary>What about revisions?</summary>
+        <div class="a">You approve the script before anything is animated, and one revision round on the edit is included — so surprises don't survive to delivery.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= END ================= -->
+<section class="end" id="contact">
+  <div class="wrap">
+    <h2 class="rv">Stop explaining.<br><span class="gold">Start converting.</span></h2>
+    <p class="lede rv d1">
+      One call. I'll tell you exactly what your first video should say, whether it should
+      be motion or talking head — and you'll leave with the
+      <span class="kw">script direction</span> either way.
+    </p>
+    <div class="cta-row rv d2">
+      <!-- Replace # with your booking link and the email with yours -->
+      <a class="btn solid" href="#">Book a call</a>
+      <a class="btn" href="mailto:hello@example.com">Email me</a>
+    </div>
+    <div class="socials rv d3">
+      <a href="https://www.tiktok.com/@pleasedtryxel" target="_blank" rel="noopener">TikTok</a>
+      <a href="https://www.instagram.com/trymewel_" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.facebook.com/akoxiijoel/reels/" target="_blank" rel="noopener">Facebook</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>© <span id="yr"></span> Joel — Motion design &amp; video editing. Cut for attention.</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+/* ---------- ambient cursor light ---------- */
+var light = document.getElementById('cursorLight');
+var lx=0, ly=0, cx=innerWidth/2, cy=innerHeight/2, lit=false;
+addEventListener('pointermove', function(e){
+  lx=e.clientX; ly=e.clientY;
+  if(!lit){ lit=true; light.style.opacity=1; }
+}, {passive:true});
+(function glow(){
+  cx += (lx-cx)*.08; cy += (ly-cy)*.08;
+  light.style.left = cx+'px'; light.style.top = cy+'px';
+  requestAnimationFrame(glow);
+})();
+
+/* ---------- scroll reveals ---------- */
+var io = new IntersectionObserver(function(es){
+  es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{threshold:.12});
+document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+
+/* ============================================================
+   CINEMA DECKS — invisible swipe
+   Touch swipes natively with snap; desktop click-drags.
+   Cards nearest center are full-size; the rest recede.
+   No buttons, no counters, no labels — just the work.
+   ============================================================ */
+document.querySelectorAll('.cinema').forEach(function(cin){
+  var rail = cin.querySelector('.rail');
+  var cards = Array.prototype.slice.call(rail.querySelectorAll('.card'));
+  var fil = cin.querySelector('.filament i');
+
+  /* depth: scale + dim by distance to center */
+  var raf = null;
+  function depth(){
+    raf = null;
+    var center = rail.scrollLeft + rail.clientWidth/2;
+    cards.forEach(function(c){
+      var d = Math.abs((c.offsetLeft + c.offsetWidth/2) - center);
+      var t = Math.min(1, d / (rail.clientWidth * .7));
+      c.style.transform = 'scale(' + (1 - t*.07) + ')';
+      c.style.opacity = 1 - t*.42;
+      c.style.filter = 'brightness(' + (1 - t*.28) + ')';
+    });
+    /* filament progress */
+    var max = rail.scrollWidth - rail.clientWidth;
+    var p = max > 0 ? rail.scrollLeft / max : 0;
+    var w = Math.max(14, 100/cards.length);
+    fil.style.width = w + '%';
+    fil.style.transform = 'translateX(' + (p * (100 - w) * 100 / w) + '%)';
+  }
+  function queue(){ if(!raf) raf = requestAnimationFrame(depth); }
+  rail.addEventListener('scroll', function(){
+    queue();
+    clearTimeout(rail._pt);
+    rail._pt = setTimeout(pauseOffscreen, 160);
+  }, {passive:true});
+  addEventListener('resize', queue);
+  depth();
+
+  /* keyboard */
+  rail.addEventListener('keydown', function(e){
+    if(e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    e.preventDefault();
+    var center = rail.scrollLeft + rail.clientWidth/2, idx = 0, best = 1e9;
+    cards.forEach(function(c,i){
+      var d = Math.abs((c.offsetLeft + c.offsetWidth/2) - center);
+      if(d < best){ best = d; idx = i; }
+    });
+    var n = cards[Math.max(0, Math.min(cards.length-1, idx + (e.key==='ArrowRight'?1:-1)))];
+    rail.scrollTo({left: n.offsetLeft - (rail.clientWidth - n.offsetWidth)/2, behavior:'smooth'});
+  });
+
+  /* desktop drag */
+  var down=false, moved=false, sx=0, sl=0;
+  rail.addEventListener('pointerdown', function(e){
+    if(e.pointerType !== 'mouse') return;
+    down = true; moved = false; sx = e.clientX; sl = rail.scrollLeft;
+  });
+  addEventListener('pointermove', function(e){
+    if(!down) return;
+    var dx = e.clientX - sx;
+    if(!moved && Math.abs(dx) > 6){ moved = true; rail.classList.add('dragging'); }
+    if(moved) rail.scrollLeft = sl - dx;
+  });
+  addEventListener('pointerup', function(){
+    if(!down) return;
+    down = false;
+    if(moved){
+      rail.classList.remove('dragging');
+      /* settle onto nearest card */
+      var center = rail.scrollLeft + rail.clientWidth/2, nearest = cards[0], best = 1e9;
+      cards.forEach(function(c){
+        var d = Math.abs((c.offsetLeft + c.offsetWidth/2) - center);
+        if(d < best){ best = d; nearest = c; }
+      });
+      rail.scrollTo({left: nearest.offsetLeft - (rail.clientWidth - nearest.offsetWidth)/2, behavior:'smooth'});
+    }
+  });
+
+  function pauseOffscreen(){
+    var rl = rail.getBoundingClientRect();
+    cards.forEach(function(c){
+      var v = c.querySelector('video');
+      if(!v || v.paused) return;
+      var r = c.getBoundingClientRect();
+      var vis = Math.min(r.right, rl.right) - Math.max(r.left, rl.left);
+      if(vis < r.width * .5) v.pause();
+    });
+  }
+});
+
+/* ---------- glass play overlays, one video at a time ---------- */
+document.querySelectorAll('.card').forEach(function(card){
+  var v = card.querySelector('video');
+  var cap = document.createElement('button');
+  cap.className = 'playcap';
+  cap.setAttribute('aria-label','Play video');
+  cap.innerHTML = '<span></span>';
+  card.appendChild(cap);
+  cap.addEventListener('click', function(){
+    document.querySelectorAll('video').forEach(function(o){ if(o !== v) o.pause(); });
+    v.controls = true;
+    v.play();
+    cap.classList.add('off');
+  });
+  v.addEventListener('play', function(){
+    document.querySelectorAll('video').forEach(function(o){ if(o !== v) o.pause(); });
+    cap.classList.add('off');
+  });
+});
+document.addEventListener('visibilitychange', function(){
+  if(document.hidden) document.querySelectorAll('video').forEach(function(v){ v.pause(); });
+});
+</script>
+</body>
+</html>
