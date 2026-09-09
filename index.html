@@ -230,7 +230,7 @@
   /* ---------- cinema decks ---------- */
   .cinema{position:relative;margin-top:54px}
   .cinema .rail{
-    display:flex;gap:26px;overflow-x:auto;
+    display:flex;gap:26px;align-items:center;overflow-x:auto;
     scroll-snap-type:x mandatory;
     -webkit-overflow-scrolling:touch;
     padding:26px max(24px,calc((100vw - 1160px)/2 + 24px)) 34px;
@@ -257,8 +257,11 @@
     will-change:transform;
   }
   .card.r916{aspect-ratio:9/16}
-  .card.r169{aspect-ratio:16/9;max-width:min(86vw,780px)}
-  .card.r11{aspect-ratio:1/1;max-width:86vw}
+  /* wide cards size from width, not height: a 16:9 box at the deck's full
+     height would need ~981px, which max-width used to clamp — squashing the
+     card to 1.4:1 and letting object-fit crop the sides off every video. */
+  .card.r169{aspect-ratio:16/9;width:min(86vw,780px);height:auto}
+  .card.r11{aspect-ratio:1/1;width:min(86vw,560px);height:auto}
   .card video{width:100%;height:100%;object-fit:cover;background:#000}
   .card::after{ /* glass top reflection */
     content:"";position:absolute;inset:0 0 62% 0;pointer-events:none;border-radius:inherit;
@@ -510,10 +513,13 @@
   <div class="cinema rv d2">
     <div class="rail" tabindex="0" aria-label="Motion design samples">
       <figure class="card r169"><video src="videos/vsl-27th.mp4" playsinline preload="metadata"></video></figure>
+      <figure class="card r169"><video src="videos/blooio.mp4" playsinline preload="metadata"></video></figure>
+      <figure class="card r169"><video src="videos/batchiq.mp4" playsinline preload="metadata"></video></figure>
       <figure class="card r916"><video src="videos/truker.mp4" playsinline preload="metadata"></video></figure>
       <figure class="card r916"><video src="videos/mia.mp4" playsinline preload="metadata"></video></figure>
       <figure class="card r916"><video src="videos/itria-week1.mp4" playsinline preload="metadata"></video></figure>
       <figure class="card r916"><video src="videos/itria-home.mp4" playsinline preload="metadata"></video></figure>
+      <figure class="card r916"><video src="videos/ironman-yarn.mp4" playsinline preload="metadata"></video></figure>
     </div>
     <div class="filament"><i></i></div>
   </div>
@@ -531,10 +537,15 @@
   </div>
   <div class="cinema rv d2">
     <div class="rail" tabindex="0" aria-label="Talking head samples">
+      <figure class="card r169"><video src="videos/amaia-terence-tan.mp4" playsinline preload="metadata"></video></figure>
       <figure class="card r916"><video src="videos/r2.mp4" playsinline preload="metadata"></video></figure>
       <figure class="card r916"><video src="videos/nb-talkinghead.mp4" playsinline preload="metadata"></video></figure>
+      <figure class="card r916"><video src="videos/mca-ad.mp4" playsinline preload="metadata"></video></figure>
       <figure class="card r916"><video src="videos/bree-r4.mp4" playsinline preload="metadata"></video></figure>
       <figure class="card r916"><video src="videos/bree-r3.mp4" playsinline preload="metadata"></video></figure>
+      <figure class="card r916"><video src="videos/27th-5th-content.mp4" playsinline preload="metadata"></video></figure>
+      <figure class="card r916"><video src="videos/27th-avenue-4th.mp4" playsinline preload="metadata"></video></figure>
+      <figure class="card r916"><video src="videos/d1.mp4" playsinline preload="metadata"></video></figure>
       <figure class="card r916"><video src="videos/sneak-peek.mp4" playsinline preload="metadata"></video></figure>
     </div>
     <div class="filament"><i></i></div>
