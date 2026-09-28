@@ -2,7 +2,7 @@
 
 60-second motion design & talking-head videos for AI, SaaS, and app
 startups and coaches. This is the full site: `index.html` + `videos/`
-(10 web-compressed samples). No build step, no dependencies.
+(18 web-compressed samples). No build step, no dependencies.
 
 ## Get your live GitHub link (about 2 minutes)
 
